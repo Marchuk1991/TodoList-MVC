@@ -16,19 +16,16 @@ namespace TodoList_MVC.Controllers
 
         public IActionResult Index()
         {
-            // Отримання всіх задач з бази даних
             var tasks = context.Tasks.Include(t => t.Category).ToList();
 
             return View(tasks);
         }
 
-        // Дія для створення нової задачі
         [HttpPost]
         public IActionResult Create(Models.Task task)
         {
             if (ModelState.IsValid)
             {
-                // Додавання нової задачі до бази даних
                 context.Tasks.Add(task);
                 context.SaveChanges();
 
@@ -38,17 +35,14 @@ namespace TodoList_MVC.Controllers
             return View(task);
         }
 
-        // Дія для відображення форми створення нової задачі
         public IActionResult Create()
         {
-            // Отримання списку категорій для відображення в випадаючому списку на формі створення задачі
             ViewBag.TaskCategories = new SelectList(context.Categories, "Id", "Name");
             return View();
         }
 
         public IActionResult Details(int id)
         {
-            // Отримання задачі за її ідентифікатором з бази даних
             var task = context.Tasks.Include(t => t.Category).FirstOrDefault(t => t.Id == id);
 
             if (task == null)
@@ -86,7 +80,8 @@ namespace TodoList_MVC.Controllers
             return View(task);
         }
 
-        //Видалення
+
+
         [HttpGet]
         public IActionResult Delete(int id)
         {
